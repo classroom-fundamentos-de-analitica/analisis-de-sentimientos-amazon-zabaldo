@@ -74,7 +74,7 @@ def pregunta_03():
     """
     # Importe el stemmer de Porter
     # Importe CountVectorizer
-    from nltk.stem import PorterStemmer
+    from nltk.stem.porter import PorterStemmer
     from sklearn.feature_extraction.text import CountVectorizer
     
     # Cree un stemeer que use el algoritmo de Porter.
@@ -103,7 +103,7 @@ def pregunta_04():
     from sklearn.naive_bayes import BernoulliNB
 
     # Cargue las variables.
-    x_train, _, y_train, _ = pregunta_02()
+    x_train, x_test, y_train, y_test = pregunta_02()
 
     # Obtenga el analizador de la pregunta 3.
     analyzer = pregunta_03()
@@ -117,7 +117,7 @@ def pregunta_04():
         analyzer=analyzer,
         lowercase=True,
         stop_words="english",
-        token_pattern="word",
+        token_pattern=r"[a-zA-Z]",
         binary=True,
         max_df=1.0,
         min_df=5,
@@ -127,7 +127,7 @@ def pregunta_04():
     pipeline = Pipeline(
         steps=[
             ("countVectorizer", countVectorizer),
-            ("BernoulliNB", BernoulliNB()),
+            ("bernoulliNB", BernoulliNB()),
         ],
     )
 
@@ -135,7 +135,7 @@ def pregunta_04():
     # considerar 10 valores entre 0.1 y 1.0 para el parámetro alpha de
     # BernoulliNB.
     param_grid = {
-        "BernoulliNB__alpha": np.linspace(0.1, 1.0, 10),
+        "bernoulliNB__alpha": np.linspace(0.1, 1.0, 10),
     }
 
     # Defina una instancia de GridSearchCV con el pipeline y el diccionario de
